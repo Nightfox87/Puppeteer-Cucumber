@@ -32,24 +32,25 @@ After(async function () {
 Given("user is on cinema page", async function () {
   return await this.page.goto(`https://qamid.tmweb.ru/client/index.php`);
 });
-When("user chooses day and movie time", async function () {
-  await clickElement(this.page, '[data-time-stamp="1670792400"]');
-  await clickElement(this.page, '[data-seance-id="129"]');
+When("user chooses day {string}", async function (string) {
+  await clickElement(this.page, `a:nth-child(${string})`);
 });
-When("user chooses one seat and books it", async function () {
-  await clickElement(this.page, "div:nth-child(3) > span:nth-child(3)");
+When("user chooses movie time {string}", async function (string) {
+  await clickElement(this.page, `[data-seance-id="${string}"]`);
+});
+When(
+  "user chooses row {string} and seat {string}",
+  async function (string1, string2) {
+    await clickElement(
+      this.page,
+      `div:nth-child(${string1}) > span:nth-child(${string2})`
+    );
+  }
+);
+When("user books", async function () {
   await clickElement(this.page, ".acceptin-button");
 });
 When("user clicks booking code butoon", async function () {
-  await clickElement(this.page, ".acceptin-button");
-});
-When("user chooses day and second movie time", async function () {
-  await clickElement(this.page, '[data-time-stamp="1670792400"]');
-  await clickElement(this.page, '[data-seance-id="94"]');
-});
-When("user chooses two seats and books them", async function () {
-  await clickElement(this.page, "div:nth-child(4) > span:nth-child(1)");
-  await clickElement(this.page, "div:nth-child(4) > span:nth-child(2)");
   await clickElement(this.page, ".acceptin-button");
 });
 Then("user sees {string}", async function (string) {
